@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>html5上传后立即显示</title>
+    <script src="jquery-3.3.1.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="jquery.rotate.min.js"></script>
+    <script src="jQueryRotate3.js"></script>
+    <script type="text/javascript">
+        function ProcessFile(e) {
+            var file = document.getElementById('file').files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var txt = event.target.img7;
+
+                    var img = document.createElement("img");
+                    img.src = txt;//将图片base64字符串赋值给img的src
+                    // console.log(txt);
+                    document.getElementById("result").appendChild(img);
+                };
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function contentLoaded() {
+            document.getElementById('file').addEventListener('change',
+                ProcessFile, false);
+        }
+
+        window.addEventListener("DOMContentLoaded", contentLoaded, false);
+        // var rotating=document.getElementById('rotated');
+        // var rotate=document.getElementById('rotate');
+        // var number=0;
+        // rotating.onclick=function () {
+        //     number++;
+        //  rotate.rotate(90*number);
+        // }
+    </script>
+</head>
+<body>
+请选取一个图像文件: <input type="file" id="file" name="file"/>
+<div id="result"></div>
+<div>
+    <img src="" id="img7">
+    <script>
+        $(document).ready(function() {
+            var value2 = 0;
+            $("#img7").rotate({
+                bind:
+                    {
+                        click: function () {
+                            value2 += 90;
+                            $(this).rotate({animateTo: value2})
+                        }
+                    }
+            });
+        });
+    </script>
+    <input type="button" value="旋转" id="rotated">
+</div>
+<script>
+</script>
+<!--<script type="text/javascript">-->
+    <!--// var num=0;-->
+    <!--// $('#xuanzhuan').click(function () {-->
+    <!--//     num++;-->
+    <!--//     $('#rotate').rotate(90*num);-->
+    <!--//     console.log("shibai")-->
+    <!--// })-->
+        <!--window.onload = function(){-->
+            <!--var current = 0;-->
+            <!--document.getElementById('rotate').onclick = function(){-->
+                <!--current = (current+90)%360;-->
+                <!--this.style.transform = 'rotate('+current+'deg)';-->
+            <!--}-->
+        <!--};-->
+<!--</script>-->
+</body>
+</html>

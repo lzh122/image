@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JSP Page</title>
+</head>
+<body>
+<image src="image/1.jpg" id="logo"/>
+<script>
+    (function(){
+        if(! window.addEventListener ){return ;}
+
+        //canvas对象
+        var canvas=null;
+        //canvas的上下文对象
+        var ctx=null;
+        //动画的帧率
+        var fps=60
+        //图像对象
+        var image=null;
+        //旋转角度
+        var deg=0;
+
+        //页面导入时的事件处理
+        window.addEventListener("load",function(){
+
+            //img元素
+            image=document.getElementById("logo");
+            //图像尺寸
+            var w=parseInt(image.width);
+            var h=parseInt(image.height);
+            //创建canvas对象
+            canvas=document.createElement("canvas");
+            canvas.width=w;
+            canvas.height=h;
+            //canvas的上下文对象
+            ctx=canvas.getContext("2d");
+            //不支持canvas的浏览器返回
+            if( !ctx ){return ;}
+
+            //将图像绘制如canvas中
+            ctx.drawImage(image, 0, 0);
+            //用canvas替换image元素
+            image.parentNode.replaceChild(canvas,image);
+            //canvas的动画开始
+            move();
+        },false);
+        //旋转动画
+        function move(){
+            //canvas尺寸
+            var cw=parseInt(canvas.width);
+            var ch=parseInt(canvas.height);
+
+            //初始化变形矩阵
+            ctx.setTransform(1,0,0,1,0,0);
+            //清空canvas
+            ctx.clearRect(0,0,cw,ch);
+            //计算变形矩阵
+            var m11=Math.cos(deg * Math.PI / 180);
+            var dx=(cw/2)-(cw * m11/2);
+
+            //变形矩阵设置
+            ctx.setTransform(m11,0,0,1,dx,0);
+            //将变形后的图像绘制入canvas中
+            ctx.drawImage(image,0,0);
+
+            //旋转角度递增
+            deg++;
+            deg=deg % 360;
+            //使用timer定时绘制下一幅图
+            setTimeout(move,1000/fps);
+        }
+
+    })();
+
+
+</script>
+</body>
+</html>
